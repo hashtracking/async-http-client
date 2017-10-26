@@ -16,6 +16,7 @@
 package io.netty.handler.codec.dns;
 
 import io.netty.buffer.ByteBuf;
+import io.netty.buffer.ByteBufHolder;
 import io.netty.util.internal.StringUtil;
 
 import static io.netty.util.internal.ObjectUtil.checkNotNull;
@@ -100,6 +101,28 @@ public class DefaultDnsRawRecord extends AbstractDnsRecord implements DnsRawReco
     @Override
     public boolean release(int decrement) {
         return content().release(decrement);
+    }
+
+    @Override
+    public ByteBufHolder replace(ByteBuf buf) {
+        return new DefaultDnsRawRecord(this.name(), this.type(), this.dnsClass(), this.timeToLive(), buf);
+    }
+
+    @Override
+    public ByteBufHolder retainedDuplicate() {
+        return this.retain();
+    }
+
+    @Override
+    public ByteBufHolder touch() {
+        // TODO: make a real implementation...
+        return this;
+    }
+
+    @Override
+    public ByteBufHolder touch(Object hint) {
+        // TODO: make a real implementation...
+        return this;
     }
 
     @Override

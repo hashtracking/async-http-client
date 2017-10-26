@@ -165,6 +165,22 @@ public class DatagramDnsResponse extends DefaultDnsResponse
         return (DatagramDnsResponse) super.retain(increment);
     }
 
+    /**
+     * Assumption: a minimal valid implementation simply returns <pre><b>this</b></pre>.
+     */
+    @Override
+    public AddressedEnvelope<DatagramDnsResponse, InetSocketAddress> touch() {
+        return this;
+    }
+
+    /**
+     * Assumption: a minimal valid implementation simply returns <pre><b>this</b></pre>.
+     */
+    @Override
+    public AddressedEnvelope<DatagramDnsResponse, InetSocketAddress> touch(Object hint) {
+        return this;
+    }
+
     @Override
     public boolean equals(Object obj) {
         if (this == obj) {

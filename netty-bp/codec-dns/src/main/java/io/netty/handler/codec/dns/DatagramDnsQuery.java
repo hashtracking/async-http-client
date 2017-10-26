@@ -132,6 +132,16 @@ public class DatagramDnsQuery extends DefaultDnsQuery
     }
 
     @Override
+    public AddressedEnvelope<DatagramDnsQuery, InetSocketAddress> touch() {
+        return (AddressedEnvelope<DatagramDnsQuery, InetSocketAddress>) super.touch();
+    }
+
+    @Override
+    public AddressedEnvelope<DatagramDnsQuery, InetSocketAddress> touch(Object hint) {
+        return (AddressedEnvelope<DatagramDnsQuery, InetSocketAddress>) super.touch(hint);
+    }
+
+    @Override
     public boolean equals(Object obj) {
         if (this == obj) {
             return true;

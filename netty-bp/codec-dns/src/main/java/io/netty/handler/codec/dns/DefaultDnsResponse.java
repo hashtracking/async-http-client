@@ -17,6 +17,8 @@ package io.netty.handler.codec.dns;
 
 import static io.netty.util.internal.ObjectUtil.checkNotNull;
 
+import io.netty.util.ReferenceCounted;
+
 /**
  * The default {@link DnsResponse} implementation.
  */
@@ -161,5 +163,11 @@ public class DefaultDnsResponse extends AbstractDnsMessage implements DnsRespons
     @Override
     public String toString() {
         return DnsMessageUtil.appendResponse(new StringBuilder(128), this).toString();
+    }
+
+    @Override
+    public ReferenceCounted touch(Object hint) {
+        // TODO: make a real implementation...
+        return this;
     }
 }

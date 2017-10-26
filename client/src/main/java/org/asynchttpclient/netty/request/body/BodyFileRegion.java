@@ -64,4 +64,35 @@ public class BodyFileRegion extends AbstractReferenceCounted implements FileRegi
     protected void deallocate() {
         closeSilently(body);
     }
+
+    @Override
+    public long transferred() {
+        return transferred;
+    }
+
+    @Override
+    public FileRegion retain() {
+        return (FileRegion) super.retain();
+    }
+
+    @Override
+    public FileRegion retain(int increment) {
+        return (FileRegion) super.retain(increment);
+    }
+
+    /**
+     * Assumption: a valid minimum implementation simply returns <pre><b>this</b></pre>.
+     */
+    @Override
+    public FileRegion touch() {
+        return this;
+    }
+
+    /**
+     * Assumption: a valid minimum implementation simply returns <pre><b>this</b></pre>.
+     */
+    @Override
+    public FileRegion touch(Object hint) {
+        return this;
+    }
 }

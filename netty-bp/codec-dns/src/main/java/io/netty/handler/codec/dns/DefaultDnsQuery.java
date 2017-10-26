@@ -15,6 +15,8 @@
  */
 package io.netty.handler.codec.dns;
 
+import io.netty.util.ReferenceCounted;
+
 /**
  * The default {@link DnsQuery} implementation.
  */
@@ -97,5 +99,10 @@ public class DefaultDnsQuery extends AbstractDnsMessage implements DnsQuery {
     @Override
     public String toString() {
         return DnsMessageUtil.appendQuery(new StringBuilder(128), this).toString();
+    }
+
+    @Override
+    public ReferenceCounted touch(Object hint) {
+        return this;
     }
 }

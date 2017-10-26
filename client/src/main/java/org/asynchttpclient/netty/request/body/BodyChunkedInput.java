@@ -15,6 +15,7 @@ package org.asynchttpclient.netty.request.body;
 
 import static org.asynchttpclient.util.Assertions.assertNotNull;
 import io.netty.buffer.ByteBuf;
+import io.netty.buffer.ByteBufAllocator;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.handler.stream.ChunkedInput;
 
@@ -71,5 +72,43 @@ public class BodyChunkedInput implements ChunkedInput<ByteBuf> {
     @Override
     public void close() throws Exception {
         body.close();
+    }
+
+    @Override
+    public long length() {
+        //...length of input unknown from available state I believe...
+        return -1L;
+    }
+
+    @Override
+    public long progress() {
+        //...I believe this is a valid implementation, but not based off much research, just gut...
+        return body.getContentLength();
+    }
+
+    @Override
+    public ByteBuf readChunk(ByteBufAllocator alloc) throws Exception {
+        //...the following implementation is taken from the now-deprecated readChunk implementation
+        //   above in same file. I just translated the intent on the available input parameters
+        //   to this method...
+
+        if (endOfInput)
+            return null;
+
+        ByteBuf buffer = alloc.buffer(chunkSize);
+        Body.BodyState state = body.transferTo(buffer);
+        switch (state) {
+        case STOP:
+            endOfInput = true;
+            return buffer;
+        case SUSPEND:
+            // this will suspend the stream in ChunkedWriteHandler
+            buffer.release();
+            return null;
+        case CONTINUE:
+            return buffer;
+        default:
+            throw new IllegalStateException("Unknown state: " + state);
+        }
     }
 }
